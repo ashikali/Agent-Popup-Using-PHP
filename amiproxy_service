@@ -1,0 +1,88 @@
+#!/bin/sh
+#
+# /etc/init.d/dialer_service
+# Subsystem file for "MySystem" server
+#
+# chkconfig: 2345 95 05	(1)
+# description: Dialer Service description 
+#
+# processname: dialer.php 
+# config: /etc/sysconfig/mySystem
+# pidfile: /var/run/dialer.php.pid
+
+progpath="/var/lib/asterisk/agi-bin/amiproxy/ami_proxy.php"
+process="/usr/bin/php $progpath"
+
+# arguments to script
+opts=""
+
+# binary program name
+prog=$(basename $progpath)
+
+# pid file
+pidfile="/var/run/${prog}.pid"
+
+# make sure full path to executable binary is found
+! [ -x $progpath ] && echo "$progpath: executable not found" && exit 1
+
+
+start() {
+  # see if running
+  result=`ps aux | grep -v grep | egrep -c "$process"`	
+
+  if [ $result -lt "1" ]; then	 #is down so run it
+  	printf "Starting $prog: " ''
+  	$process $opts 1>/dev/null 2>/dev/null &
+        echo $! > $pidfile
+	echo "Process id is `cat $pidfile`";
+  else
+	echo "$process is already running";
+  fi
+}
+
+stop() {
+  # see if running
+  result=`ps aux | grep -v grep | egrep -c "$process"`
+    if [ $result -gt "0" ]; then
+     PID=`cat "$pidfile"  2>/dev/null`
+     kill $PID
+        if [ $? -eq 0 ]; then
+           echo "$PID Stopped....."
+           rm -f $pidfile
+        else
+           echo "Failed to Stop"
+        fi
+    else
+        echo "Stopped Already"
+    fi
+}
+
+status() {
+    result=`ps aux | grep -v grep | egrep -c "$process"`
+    if [ $result -gt "0" ]; then
+        echo "`cat $pidfile` Running..."
+    else
+        echo "$process Not Running..."
+    fi
+}
+
+case $1 in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  status)
+    status
+    ;;
+  restart)
+    stop
+    sleep 1
+    start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|status|restart}"
+    exit 1
+esac
+exit $?
