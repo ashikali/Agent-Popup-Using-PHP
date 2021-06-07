@@ -15,7 +15,7 @@
    after the call by client secript using http get. For example http://<ami proxy IP>/register_popup.php?port=9090&channel=SIP/10001"
    
 ## amiproxy_service
-   This is a init.d daemon script for ami_prox.php
+   This is an init.d daemon script for ami_proxy.php
    
 ## tables.sql
    mysql script to crate table.
