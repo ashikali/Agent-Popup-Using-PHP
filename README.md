@@ -27,7 +27,8 @@
 
    CentOS 7,Asterisk 16,php 5.6
    
-Withs Cheers,
+With Cheers,
+   
 Ashik
    
 
