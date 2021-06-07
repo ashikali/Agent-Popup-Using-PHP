@@ -1,5 +1,5 @@
 ## Agent-Popup-Using-PHP
-   This is an Agent Pop Up Server/Client application to alert the agent with URL/POPUP or URL notification when he/she receives the call.
+   This is an Agent Pop Up Server/Client application to alert the agent with POPUP or URL notification when he/she receives the call.
 
 ## ami_proxy.php
    This is an agent pop-up server side script connected to asterisk using AMI interface and watches the extension status when the agent extension gets ringing it will send the notification to 
